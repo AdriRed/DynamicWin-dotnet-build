@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using IWshRuntimeLibrary;
 
 namespace DynamicWin.Utils
@@ -32,12 +33,12 @@ namespace DynamicWin.Utils
 
             string exePath = Process.GetCurrentProcess().MainModule.FileName;
 
-            WshShell wshShell = new WshShell();
-            IWshShortcut shortcut = (IWshShortcut)wshShell.CreateShortcut(shortcutPath);
-            shortcut.TargetPath = exePath;
-            shortcut.WorkingDirectory = Path.GetDirectoryName(exePath);
-            shortcut.Description = "Launches the app on system startup.";
-            shortcut.Save();
+            IShellLink wshShell = (IShellLink)new ShellLink();
+            wshShell.SetWorkingDirectory(Path.GetDirectoryName(exePath));
+            wshShell.SetPath(exePath);
+            wshShell.SetDescription("Launches the app on system startup.");
+            IPersistFile file = (IPersistFile)wshShell;
+            file.Save(shortcutPath, false);
 
             Console.WriteLine("Shortcut created successfully.");
         }
@@ -58,5 +59,4 @@ namespace DynamicWin.Utils
             return false;
         }
     }
-
 }
