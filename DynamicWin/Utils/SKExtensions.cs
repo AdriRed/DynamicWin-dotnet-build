@@ -2,6 +2,7 @@ using SkiaSharp;
 
 namespace DynamicWin.Utils;
 
+// source https://github.com/mono/SkiaSharp/blob/main/source/SkiaSharp.Views/SkiaSharp.Views.WindowsForms/Extensions.Desktop.cs
 public static class SKExtensions {
     public static SKBitmap ToSKBitmap(this System.Drawing.Bitmap bitmap)
 		{
